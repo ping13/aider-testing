@@ -1,6 +1,7 @@
 import pygame
 import sys
 import random
+import time
 
 # Initialize Pygame
 pygame.init()
@@ -41,7 +42,10 @@ RED = (255, 0, 0)
 
 # Paddle settings
 PADDLE_WIDTH, PADDLE_HEIGHT = 20, 120
-PADDLE_SPEED = 7
+BASE_PADDLE_SPEED = 7
+MAX_PADDLE_SPEED = 15
+SPEED_INCREASE_INTERVAL = 0.2
+SPEED_INCREASE_FACTOR = 1.2
 
 # Ball settings
 BALL_SIZE = 15
@@ -60,11 +64,25 @@ def reset_ball():
     ball.center = (WIDTH//2, HEIGHT//2)
     return BALL_SPEED_X * random.choice((1, -1)), BALL_SPEED_Y * random.choice((1, -1))
 
-def move_paddle(paddle, up, down):
+def move_paddle(paddle, up, down, current_time, last_press_time, current_speed):
+    if up or down:
+        if last_press_time is None:
+            last_press_time = current_time
+            current_speed = BASE_PADDLE_SPEED
+        else:
+            time_pressed = current_time - last_press_time
+            speed_increases = int(time_pressed / SPEED_INCREASE_INTERVAL)
+            current_speed = min(BASE_PADDLE_SPEED * (SPEED_INCREASE_FACTOR ** speed_increases), MAX_PADDLE_SPEED)
+    else:
+        last_press_time = None
+        current_speed = BASE_PADDLE_SPEED
+
     if up and paddle.top > 0:
-        paddle.y -= PADDLE_SPEED
+        paddle.y -= current_speed
     if down and paddle.bottom < HEIGHT:
-        paddle.y += PADDLE_SPEED
+        paddle.y += current_speed
+
+    return last_press_time, current_speed
 
 def move_ai_paddle(paddle, ball):
     if paddle.centery < ball.centery and paddle.bottom < HEIGHT:
@@ -120,6 +138,9 @@ def main():
 
     player_name = get_player_name()
 
+    last_press_time = None
+    current_paddle_speed = BASE_PADDLE_SPEED
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -133,7 +154,8 @@ def main():
 
         if not game_over:
             keys = pygame.key.get_pressed()
-            move_paddle(player, keys[pygame.K_UP], keys[pygame.K_DOWN])
+            current_time = time.time()
+            last_press_time, current_paddle_speed = move_paddle(player, keys[pygame.K_UP], keys[pygame.K_DOWN], current_time, last_press_time, current_paddle_speed)
             move_ai_paddle(opponent, ball)
 
             ball.x += ball_dx * speed_increase
