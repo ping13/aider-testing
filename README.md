@@ -62,21 +62,23 @@ Full transcipt is [here](./aider-chat-pong.md).
 
 ### Final result
 
-![Entry page](./img/Bildschirmfoto 2024-09-28%20um%2012.35.50.png)
-![Play mode](./img/Bildschirmfoto 2024-09-28%20um%2012.35.57.png)
+![Entry page](./img/screenshot_start.png)
+
+![Play mode](./img/screenshot_game.png)
 
 
 #### Costs
 
-> Approximate context window usage for claude-3-5-sonnet-20240620, in tokens:  
-> $ 0.0052    1,735 system messages  
-> $ 0.0062    2,065 chat history    use /clear to clear  
-> $ 0.0052    1,727 pong.py         /drop to remove  
-> ==================  
-> $ 0.0166    5,527 tokens total  
-> 194,473 tokens remaining in context window  
-> 200,000 tokens max context window size  
-
+```
+Approximate context window usage for claude-3-5-sonnet-20240620, in tokens:  
+$ 0.0052    1,735 system messages  
+$ 0.0062    2,065 chat history    use /clear to clear  
+$ 0.0052    1,727 pong.py         /drop to remove  
+==================  
+$ 0.0166    5,527 tokens total  
+194,473 tokens remaining in context window  
+200,000 tokens max context window size  
+```
 
 
 
