@@ -122,9 +122,9 @@ def draw_objects(screen, player, opponent, ball, player_name):
     pygame.draw.aaline(screen, WHITE, (WIDTH//2, 0), (WIDTH//2, HEIGHT))
     
     if player_name:
-        initial = player_name[0].upper()
-        initial_text = font.render(initial, True, WHITE)
-        screen.blit(initial_text, (player.centerx - initial_text.get_width()//2, player.centery - initial_text.get_height()//2))
+        initials = ''.join(word[0].upper() for word in player_name.split())
+        initials_text = font.render(initials, True, WHITE)
+        screen.blit(initials_text, (player.centerx - initials_text.get_width()//2, player.centery - initials_text.get_height()//2))
 
 def draw_score(screen, player_score, opponent_score):
     player_text = font.render(str(player_score), True, WHITE)
