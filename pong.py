@@ -20,8 +20,8 @@ PADDLE_SPEED = 5
 
 # Ball settings
 BALL_SIZE = 15
-BALL_SPEED_X = 7
-BALL_SPEED_Y = 7
+BALL_SPEED_X = 5
+BALL_SPEED_Y = 5
 
 # Font
 font = pygame.font.Font(None, 36)
@@ -112,7 +112,7 @@ def main():
             player_score, opponent_score, scored = update_score(ball, player_score, opponent_score)
             if scored:
                 ball_dx, ball_dy = reset_ball()
-                speed_increase += 0.1
+                speed_increase += 0.05
 
             if player_score >= 10 or opponent_score >= 10:
                 game_over = True
