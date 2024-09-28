@@ -84,11 +84,20 @@ def move_paddle(paddle, up, down, current_time, last_press_time, current_speed):
 
     return last_press_time, current_speed
 
-def move_ai_paddle(paddle, ball):
-    if paddle.centery < ball.centery and paddle.bottom < HEIGHT:
-        paddle.y += BASE_PADDLE_SPEED
-    elif paddle.centery > ball.centery and paddle.top > 0:
-        paddle.y -= BASE_PADDLE_SPEED
+def move_ai_paddle(paddle, ball, ai_move_counter):
+    ai_move_counter += 1
+    if ai_move_counter % 10 == 0 and random.random() < 0.5:
+        # Randomly move in the opposite direction to miss the ball
+        if paddle.centery < ball.centery and paddle.top > 0:
+            paddle.y -= BASE_PADDLE_SPEED
+        elif paddle.centery > ball.centery and paddle.bottom < HEIGHT:
+            paddle.y += BASE_PADDLE_SPEED
+    else:
+        if paddle.centery < ball.centery and paddle.bottom < HEIGHT:
+            paddle.y += BASE_PADDLE_SPEED
+        elif paddle.centery > ball.centery and paddle.top > 0:
+            paddle.y -= BASE_PADDLE_SPEED
+    return ai_move_counter
 
 def check_ball_collision(ball, player, opponent, ball_dx, ball_dy):
     if ball.top <= 0 or ball.bottom >= HEIGHT:
@@ -140,6 +149,7 @@ def main():
 
     last_press_time = None
     current_paddle_speed = BASE_PADDLE_SPEED
+    ai_move_counter = 0
 
     while True:
         for event in pygame.event.get():
@@ -156,7 +166,7 @@ def main():
             keys = pygame.key.get_pressed()
             current_time = time.time()
             last_press_time, current_paddle_speed = move_paddle(player, keys[pygame.K_UP], keys[pygame.K_DOWN], current_time, last_press_time, current_paddle_speed)
-            move_ai_paddle(opponent, ball)
+            ai_move_counter = move_ai_paddle(opponent, ball, ai_move_counter)
 
             ball.x += ball_dx * speed_increase
             ball.y += ball_dy * speed_increase
