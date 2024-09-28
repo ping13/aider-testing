@@ -86,9 +86,9 @@ def move_paddle(paddle, up, down, current_time, last_press_time, current_speed):
 
 def move_ai_paddle(paddle, ball):
     if paddle.centery < ball.centery and paddle.bottom < HEIGHT:
-        paddle.y += PADDLE_SPEED
+        paddle.y += BASE_PADDLE_SPEED
     elif paddle.centery > ball.centery and paddle.top > 0:
-        paddle.y -= PADDLE_SPEED
+        paddle.y -= BASE_PADDLE_SPEED
 
 def check_ball_collision(ball, player, opponent, ball_dx, ball_dy):
     if ball.top <= 0 or ball.bottom >= HEIGHT:
