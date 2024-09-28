@@ -41,7 +41,7 @@ RED = (255, 0, 0)
 
 # Paddle settings
 PADDLE_WIDTH, PADDLE_HEIGHT = 20, 120
-PADDLE_SPEED = 5
+PADDLE_SPEED = 7
 
 # Ball settings
 BALL_SIZE = 15
