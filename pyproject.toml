@@ -1,0 +1,14 @@
+[project]
+name = "aider-testing"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pygame>=2.6.0",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "aider-chat>=0.57.1",
+]
