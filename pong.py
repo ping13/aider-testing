@@ -5,6 +5,29 @@ import random
 # Initialize Pygame
 pygame.init()
 
+def get_player_name():
+    name = ""
+    input_active = True
+    while input_active:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    input_active = False
+                elif event.key == pygame.K_BACKSPACE:
+                    name = name[:-1]
+                else:
+                    name += event.unicode
+        
+        screen.fill(BLACK)
+        text_surface = font.render("Enter your name: " + name, True, WHITE)
+        screen.blit(text_surface, (WIDTH//2 - text_surface.get_width()//2, HEIGHT//2))
+        pygame.display.flip()
+    
+    return name
+
 # Set up the game window
 WIDTH, HEIGHT = 800, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -65,11 +88,16 @@ def update_score(ball, player_score, opponent_score):
         return player_score, opponent_score, True
     return player_score, opponent_score, False
 
-def draw_objects(screen, player, opponent, ball):
+def draw_objects(screen, player, opponent, ball, player_name):
     pygame.draw.rect(screen, BLUE, player)
     pygame.draw.rect(screen, RED, opponent)
     pygame.draw.ellipse(screen, WHITE, ball)
     pygame.draw.aaline(screen, WHITE, (WIDTH//2, 0), (WIDTH//2, HEIGHT))
+    
+    if player_name:
+        initial = player_name[0].upper()
+        initial_text = font.render(initial, True, WHITE)
+        screen.blit(initial_text, (player.centerx - initial_text.get_width()//2, player.centery - initial_text.get_height()//2))
 
 def draw_score(screen, player_score, opponent_score):
     player_text = font.render(str(player_score), True, WHITE)
@@ -89,6 +117,8 @@ def main():
     ball_dx, ball_dy = reset_ball()
     game_over = False
     speed_increase = 1.0
+
+    player_name = get_player_name()
 
     while True:
         for event in pygame.event.get():
@@ -120,7 +150,7 @@ def main():
                 game_over = True
 
         screen.fill(BLACK)
-        draw_objects(screen, player, opponent, ball)
+        draw_objects(screen, player, opponent, ball, player_name)
         draw_score(screen, player_score, opponent_score)
 
         if game_over:
