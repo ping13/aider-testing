@@ -13,9 +13,11 @@ pygame.display.set_caption("Pong")
 # Colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+BLUE = (0, 0, 255)
+RED = (255, 0, 0)
 
 # Paddle settings
-PADDLE_WIDTH, PADDLE_HEIGHT = 15, 90
+PADDLE_WIDTH, PADDLE_HEIGHT = 20, 120
 PADDLE_SPEED = 5
 
 # Ball settings
@@ -64,8 +66,8 @@ def update_score(ball, player_score, opponent_score):
     return player_score, opponent_score, False
 
 def draw_objects(screen, player, opponent, ball):
-    pygame.draw.rect(screen, WHITE, player)
-    pygame.draw.rect(screen, WHITE, opponent)
+    pygame.draw.rect(screen, BLUE, player)
+    pygame.draw.rect(screen, RED, opponent)
     pygame.draw.ellipse(screen, WHITE, ball)
     pygame.draw.aaline(screen, WHITE, (WIDTH//2, 0), (WIDTH//2, HEIGHT))
 
